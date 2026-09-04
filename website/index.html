@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#050b14" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="application-name" content="Pakku" />
+    <meta name="apple-mobile-web-app-title" content="Pakku" />
+    <meta name="author" content="Daniel Luiz Alves · Kyantech Labs" />
+    <meta name="creator" content="Kyantech Labs" />
+    <meta name="publisher" content="Kyantech Labs" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="googlebot" content="index, follow, max-image-preview:large" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta
+      name="keywords"
+      content="transient shaper, multiband transient shaper, audio plugin, VST3, Audio Unit, AU plugin, music production, mixing plugin, free VST, open source audio"
+    />
+    <meta
+      name="description"
+      content="Shape attack and sustain across three bands with Pakku, a free open-source transient shaper for macOS and Windows. Download AU and VST3."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Pakku" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://danielalves96.github.io/pakku-vst/" />
+    <meta property="og:title" content="Pakku — Own the impact." />
+    <meta
+      property="og:description"
+      content="Shape attack and sustain across three bands. Pakku is a precise, free and open-source AU/VST3 plugin for macOS and Windows."
+    />
+    <meta property="og:image" content="https://danielalves96.github.io/pakku-vst/assets/og-pakku.png" />
+    <meta property="og:image:secure_url" content="https://danielalves96.github.io/pakku-vst/assets/og-pakku.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Pakku multiband transient shaper interface in a dark blue studio-inspired layout" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Pakku — Own the impact." />
+    <meta name="twitter:description" content="Free and open-source multiband transient shaping for macOS and Windows. AU and VST3." />
+    <meta name="twitter:image" content="https://danielalves96.github.io/pakku-vst/assets/og-pakku.png" />
+    <meta name="twitter:image:alt" content="Pakku multiband transient shaper interface" />
+    <title>Pakku — Free Multiband Transient Shaper · AU &amp; VST3</title>
+    <link rel="canonical" href="https://danielalves96.github.io/pakku-vst/" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="assets/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" sizes="180x180" />
+    <link rel="manifest" href="site.webmanifest" />
+    <link rel="author" href="https://github.com/danielalves96" />
+    <link rel="license" href="https://github.com/danielalves96/pakku-vst/blob/main/LICENSE" />
+    <link rel="help" href="manual.pdf" type="application/pdf" title="Pakku user manual" />
+    <link rel="preload" href="assets/Michroma-Regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Pakku",
+        "alternateName": "Pakku Multiband Transient Shaper",
+        "url": "https://danielalves96.github.io/pakku-vst/",
+        "description": "A free and open-source multiband transient shaper for macOS and Windows, available as AU and VST3.",
+        "applicationCategory": "MultimediaApplication",
+        "applicationSubCategory": "Audio plug-in",
+        "operatingSystem": "macOS 11 or later; Windows 10 or later",
+        "softwareVersion": "1.0.0",
+        "softwareRequirements": "An AU or VST3-compatible audio host",
+        "isAccessibleForFree": true,
+        "image": "https://danielalves96.github.io/pakku-vst/assets/og-pakku.png",
+        "screenshot": "https://raw.githubusercontent.com/danielalves96/pakku-vst/main/docs/pakku-ui.png",
+        "downloadUrl": [
+          "https://danielalves96.github.io/pakku-vst/downloads/Pakku-1.0.0-macOS.zip",
+          "https://danielalves96.github.io/pakku-vst/downloads/Pakku-1.0.0-Windows.zip"
+        ],
+        "license": "https://www.gnu.org/licenses/agpl-3.0.html",
+        "sameAs": "https://github.com/danielalves96/pakku-vst",
+        "author": {
+          "@type": "Person",
+          "name": "Daniel Luiz Alves",
+          "url": "https://github.com/danielalves96"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Kyantech Labs"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock"
+        }
+      }
+    </script>
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="grain" aria-hidden="true"></div>
+    <div class="cursor-glow" aria-hidden="true"></div>
+
+    <header class="site-header" data-header>
+      <a class="wordmark" href="#top" aria-label="Pakku, home">
+        <svg viewBox="0 0 66 20" aria-hidden="true">
+          <path d="M2 12v-4M10 16V4M18 14V6M26 18V2M34 13V7M42 15V5M50 12V8M58 14V6M64 11V9" />
+        </svg>
+        <span>PAKKU</span>
+      </a>
+      <nav class="desktop-nav" aria-label="Main navigation">
+        <a href="#plugin">The plugin</a>
+        <a href="#features">Features</a>
+        <a href="#download">Download</a>
+      </nav>
+      <a class="nav-download" href="#download">Free download <span aria-hidden="true">↓</span></a>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top" aria-labelledby="hero-title">
+        <canvas class="hero-wave" data-wave aria-hidden="true"></canvas>
+        <div class="hero-beam" aria-hidden="true"></div>
+        <div class="hero-copy">
+          <p class="eyebrow reveal">Multiband transient shaper <span>01</span></p>
+          <h1 id="hero-title" class="hero-title" aria-label="Pakku">
+            <span class="title-line" aria-hidden="true">PAK</span><span class="title-line title-outline" aria-hidden="true">KU</span>
+          </h1>
+          <div class="hero-bottom reveal">
+            <div>
+              <p class="hero-kicker">Own the impact.</p>
+              <p class="hero-description">
+                Shape attack and sustain across three bands. Then push everything to the edge.
+              </p>
+            </div>
+            <a
+              class="primary-cta magnetic"
+              data-primary-download
+              href="downloads/Pakku-1.0.0-macOS.zip"
+              download
+            >
+              <span class="cta-icon" aria-hidden="true">↓</span>
+              <span><strong>Free download</strong><small data-primary-platform>macOS · AU + VST3 · v1.0.0</small></span>
+            </a>
+          </div>
+        </div>
+
+        <div class="plugin-stage" data-tilt>
+          <div class="plugin-halo" aria-hidden="true"></div>
+          <img
+            src="assets/pakku-ui.png"
+            alt="Pakku interface showing the transient editor in full-range mode"
+            width="1200"
+            height="696"
+            fetchpriority="high"
+          />
+          <div class="plugin-reflection" aria-hidden="true"></div>
+        </div>
+
+        <div class="scroll-cue" aria-hidden="true"><span></span> Scroll to dissect the signal</div>
+      </section>
+
+      <section class="signal-strip" aria-label="Resumo do produto">
+        <div class="marquee-track">
+          <span>AU</span><i></i><span>VST3</span><i></i><span>MAC + WINDOWS</span><i></i><span>FREE</span><i></i><span>OPEN SOURCE</span><i></i>
+          <span aria-hidden="true">AU</span><i aria-hidden="true"></i><span aria-hidden="true">VST3</span><i aria-hidden="true"></i><span aria-hidden="true">MAC + WINDOWS</span><i aria-hidden="true"></i><span aria-hidden="true">FREE</span><i aria-hidden="true"></i><span aria-hidden="true">OPEN SOURCE</span><i aria-hidden="true"></i>
+        </div>
+      </section>
+
+      <section class="manifesto section-shell" id="plugin">
+        <div class="section-index reveal"><span>02</span> The signal never lies</div>
+        <div class="manifesto-grid">
+          <h2 class="display-copy reveal">ATTACK.<br /><em>BODY.</em><br />CONTROL.</h2>
+          <div class="manifesto-text reveal">
+            <p class="lead">A transient shaper that works where the sound actually happens.</p>
+            <p>
+              Pakku splits the signal into three bands through a fourth-order Linkwitz–Riley crossover. You decide where the kick bites, where the snare breathes and how hard the bus can take it.
+            </p>
+            <div class="stat-row">
+              <div><strong>03</strong><span>independent bands</span></div>
+              <div><strong>4×</strong><span>ceiling oversampling</span></div>
+              <div><strong>31</strong><span>factory presets</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="multiband-showcase section-shell">
+        <div class="showcase-head reveal">
+          <div>
+            <div class="section-index"><span>03</span> Multiband precision</div>
+            <h2>Split. Shape.<br />Make it hit.</h2>
+          </div>
+          <p>Tight lows. Mids that cut through. Alive highs. Each range gets exactly what it needs — without destroying what already works.</p>
+        </div>
+        <div class="screen-frame reveal" data-tilt>
+          <div class="screen-label"><span>LIVE SIGNAL</span><span>48.0 KHZ / 24 BIT</span></div>
+          <img
+            src="assets/pakku-multiband.png"
+            alt="Pakku multiband interface with three frequency regions and waveform display"
+            width="1200"
+            height="696"
+            loading="lazy"
+          />
+        </div>
+      </section>
+
+      <section class="features section-shell" id="features">
+        <div class="section-index reveal"><span>04</span> No tricks. Just engineering.</div>
+        <div class="features-layout">
+          <div class="features-intro reveal">
+            <h2>Brutal when you want it.<br /><em>Transparent when you need it.</em></h2>
+            <p>From the first peak to the last dB, every stage is built to keep the punch under your command.</p>
+          </div>
+          <div class="feature-list">
+            <article class="feature reveal">
+              <span class="feature-number">01</span>
+              <div><h3>Three bands. Or none.</h3><p>Work in multiband or give the waveform the full display in full-range mode. One pair of faders follows the selected band.</p></div>
+              <span class="feature-mark" aria-hidden="true">↗</span>
+            </article>
+            <article class="feature reveal">
+              <span class="feature-number">02</span>
+              <div><h3>A threshold you can touch.</h3><p>Drag the line directly over the waveform or use the knob. Two gestures, one parameter, zero friction.</p></div>
+              <span class="feature-mark" aria-hidden="true">↗</span>
+            </article>
+            <article class="feature reveal">
+              <span class="feature-number">03</span>
+              <div><h3>A merciless ceiling.</h3><p>Limiter with 5 ms lookahead or soft clip with a knee below threshold — both running at 4× linear-phase oversampling.</p></div>
+              <span class="feature-mark" aria-hidden="true">↗</span>
+            </article>
+            <article class="feature reveal">
+              <span class="feature-number">04</span>
+              <div><h3>Mix without phase smear.</h3><p>The dry path is latency compensated. Turn Mix with confidence, without comb filtering hollowing out the body.</p></div>
+              <span class="feature-mark" aria-hidden="true">↗</span>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="detail-shot section-shell">
+        <div class="detail-copy reveal">
+          <span class="mono-label">BUILT TO DISAPPEAR IN YOUR FLOW</span>
+          <h2>Your sound up front.<br />The tool out of the way.</h2>
+          <p>Three interface sizes, presets in an open format and every choice saved with the session. Get in, get it done, move on.</p>
+          <a href="manual.pdf" target="_blank" rel="noreferrer">Open the full manual <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="detail-image reveal">
+          <img src="assets/pakku-settings.png" alt="Pakku settings and product information panel" width="1200" height="696" loading="lazy" />
+        </div>
+      </section>
+
+      <section class="download-section" id="download" aria-labelledby="download-title">
+        <div class="download-glow" aria-hidden="true"></div>
+        <div class="download-inner section-shell">
+          <div class="section-index reveal"><span>05</span> Let it in</div>
+          <p class="download-pretitle reveal">Pakku v1.0.0</p>
+          <h2 id="download-title" class="reveal">THE IMPACT<br /><em>IS YOURS.</em></h2>
+          <p class="download-sub reveal">Free. Open source. No account, no license, no ritual.</p>
+          <div class="download-grid reveal">
+            <a class="download-card magnetic" href="downloads/Pakku-1.0.0-macOS.zip" download>
+              <div class="platform-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M17.05 12.54c-.03-3.05 2.49-4.53 2.6-4.6a5.58 5.58 0 0 0-4.39-2.38c-1.85-.2-3.65 1.11-4.59 1.11-.96 0-2.41-1.09-3.98-1.05a5.82 5.82 0 0 0-4.9 2.98c-2.13 3.69-.54 9.12 1.5 12.1 1.02 1.46 2.2 3.08 3.77 3.02 1.54-.06 2.11-.97 3.97-.97 1.83 0 2.37.97 3.98.93 1.65-.02 2.69-1.46 3.67-2.93a12.1 12.1 0 0 0 1.68-3.42 5.25 5.25 0 0 1-3.31-4.79ZM14.05 3.6A5.34 5.34 0 0 0 15.28 0a5.42 5.42 0 0 0-3.5 1.71 5.08 5.08 0 0 0-1.26 3.46 4.48 4.48 0 0 0 3.53-1.57Z" /></svg>
+              </div>
+              <div><strong>macOS</strong><span>11+ · Intel & Apple Silicon</span><small>AU + VST3 · 8.4 MB</small></div>
+              <span class="download-arrow" aria-hidden="true">↓</span>
+            </a>
+            <a class="download-card magnetic" href="downloads/Pakku-1.0.0-Windows.zip" download>
+              <div class="platform-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M2 3.4 10.9 2v9.2H2V3.4Zm10.1-1.6L22 0v11.2h-9.9V1.8ZM2 12.4h8.9v9.2L2 20.2v-7.8Zm10.1 0H22V24l-9.9-1.8v-9.8Z" /></svg>
+              </div>
+              <div><strong>Windows</strong><span>10+ · 64-bit</span><small>VST3 · 4.4 MB</small></div>
+              <span class="download-arrow" aria-hidden="true">↓</span>
+            </a>
+          </div>
+          <p class="install-note reveal">Unsigned builds — read the installation instructions in the <a href="manual.pdf" target="_blank" rel="noreferrer">manual</a>.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer section-shell">
+      <div class="footer-main">
+        <a class="footer-logo" href="#top">PAKKU<span>®</span></a>
+        <p>Multiband transient shaper<br />made in Brazil for everywhere.</p>
+      </div>
+      <div class="footer-links">
+        <div><span>PRODUCT</span><a href="#features">Features</a><a href="#download">Download</a><a href="manual.pdf" target="_blank" rel="noreferrer">Manual</a></div>
+        <div><span>OPEN</span><a href="https://github.com/danielalves96/pakku-vst" target="_blank" rel="noreferrer">GitHub ↗</a><a href="https://github.com/danielalves96/pakku-vst/blob/main/LICENSE" target="_blank" rel="noreferrer">AGPLv3 ↗</a><a href="https://github.com/sponsors/danielalves96" target="_blank" rel="noreferrer">Support ↗</a></div>
+      </div>
+      <div class="footer-bottom"><span>© 2026 KYANTECH LABS</span><span>SIGNAL UNDER CONTROL.</span></div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "name": "Pakku — Multiband Transient Shaper",
+  "short_name": "Pakku",
+  "description": "Free and open-source multiband transient shaper for macOS and Windows.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#070707",
+  "theme_color": "#050b14",
+  "icons": [
+    {
+      "src": "assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

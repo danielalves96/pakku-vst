@@ -1,0 +1,14 @@
+/manual.pdf
+  Content-Type: application/pdf
+  Content-Disposition: inline; filename="Pakku-Manual.pdf"
+  Cache-Control: public, max-age=3600
+  X-Content-Type-Options: nosniff
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+  X-Content-Type-Options: nosniff
+
+/downloads/*
+  Content-Disposition: attachment
+  Cache-Control: public, max-age=86400
+  X-Content-Type-Options: nosniff

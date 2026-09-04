@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://danielalves96.github.io/pakku-vst/sitemap.xml
