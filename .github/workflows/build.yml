@@ -31,6 +31,21 @@ jobs:
           killall -9 AudioComponentRegistrar 2>/dev/null || true
           auval -v aufx Pkku Kytl
 
+      # Pinned rather than latest: a new pluginval release should not be able
+      # to turn a green build red on its own.
+      - name: Validate both formats
+        run: |
+          curl -sSfL -o pluginval.zip \
+            https://github.com/Tracktion/pluginval/releases/download/v1.0.4/pluginval_macOS.zip
+          unzip -q pluginval.zip
+          pv=pluginval.app/Contents/MacOS/pluginval
+          for plugin in ~/Library/Audio/Plug-Ins/Components/Pakku.component \
+                        build/src/Pakku_artefacts/Release/VST3/Pakku.vst3; do
+              echo "==> $plugin"
+              "$pv" --strictness-level 10 --validate-in-process \
+                    --timeout-ms 600000 --skip-gui-tests "$plugin"
+          done
+
       - name: Bench
         run: |
           ./build/tools/dsptest/pakku_dsptest_artefacts/Release/pakku_dsptest
@@ -69,6 +84,19 @@ jobs:
 
       - name: Build
         run: cmake --build build --config Release
+
+      # Nothing validated the VST3 on Windows before this.
+      - name: Validate VST3
+        run: |
+          curl.exe -sSfL -o pluginval.zip `
+            https://github.com/Tracktion/pluginval/releases/download/v1.0.4/pluginval_Windows.zip
+          Expand-Archive -Path pluginval.zip -DestinationPath pluginval
+          $pv = Get-ChildItem -Path pluginval -Filter pluginval.exe -Recurse |
+                Select-Object -First 1 -ExpandProperty FullName
+          & $pv --strictness-level 10 --validate-in-process `
+                --timeout-ms 600000 --skip-gui-tests `
+                build/src/Pakku_artefacts/Release/VST3/Pakku.vst3
+          if ($LASTEXITCODE -ne 0) { throw "pluginval failed" }
 
       - name: Read version
         id: ver
