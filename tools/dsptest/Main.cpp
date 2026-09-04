@@ -93,6 +93,87 @@ int main()
     proc.setPlayConfigDetails (2, 2, SR, B);
     proc.prepareToPlay (SR, B);
 
+    //==========================================================================
+    /*  Everything the DSP does is derived from the sample rate at prepare
+        time: filter coefficients, envelope constants, the ceiling's lookahead.
+        A constant left in samples rather than in seconds would pass at 48 kHz
+        and drift everywhere else, so each rate is checked on its own.       */
+    std::cout << "\n=== SAMPLE RATE COVERAGE ===\n";
+
+    for (double rate : { 44100.0, 48000.0, 88200.0, 96000.0, 192000.0 })
+    {
+        PakkuAudioProcessor p2;
+        p2.prepareToPlay (rate, 512);
+
+        auto setP = [&] (const String& id, float v)
+        {
+            if (auto* rp = dynamic_cast<RangedAudioParameter*> (p2.apvts.getParameter (id)))
+                rp->setValueNotifyingHost (rp->convertTo0to1 (v));
+        };
+        for (auto* prm : p2.getParameters())
+            if (auto* rp = dynamic_cast<RangedAudioParameter*> (prm))
+                rp->setValueNotifyingHost (rp->getDefaultValue());
+        setP (pid::presence, 0.0f);
+        setP (pid::bandMode, 0.0f);          // multiband
+        setP (pid::xoverLow, 800.0f);
+        setP (pid::xoverHigh, 8000.0f);
+
+        // transfer function at the two crossover points, from noise
+        const int n = 1 << 15;
+        std::vector<float> noise ((size_t) n);
+        Random rnd (11);
+        for (auto& v : noise) v = 0.05f * (rnd.nextFloat() * 2.0f - 1.0f);
+
+        auto sig = noise;
+        {
+            MidiBuffer midi;
+            AudioBuffer<float> blk (2, 512);
+            for (size_t pos = 0; pos < sig.size(); pos += 512)
+            {
+                const auto k = (int) jmin ((size_t) 512, sig.size() - pos);
+                blk.setSize (2, k, false, false, true);
+                for (int c = 0; c < 2; ++c) blk.copyFrom (c, 0, sig.data() + pos, k);
+                p2.processBlock (blk, midi);
+                for (int i = 0; i < k; ++i) sig[pos + (size_t) i] = blk.getSample (0, i);
+            }
+        }
+
+        bool finite = true;
+        for (auto v : sig) if (! std::isfinite (v)) { finite = false; break; }
+
+        dsp::FFT fft (14);
+        auto spec = [&] (const std::vector<float>& x, size_t off)
+        {
+            HeapBlock<float> fd (1 << 15, true);
+            for (int i = 0; i < (1 << 14); ++i)
+                fd[i] = x[off + (size_t) i]
+                        * (0.5f - 0.5f * std::cos (MathConstants<float>::twoPi * i / ((1 << 14) - 1)));
+            fft.performFrequencyOnlyForwardTransform (fd);
+            std::vector<float> m ((size_t) (1 << 13));
+            for (size_t i = 0; i < m.size(); ++i) m[i] = fd[i];
+            return m;
+        };
+
+        const auto latency = (size_t) p2.getLatencySamples();
+        const auto ref = spec (noise, 0), out = spec (sig, latency);
+
+        auto atHz = [&] (double hz)
+        {
+            const auto bin = (size_t) std::round (hz * (1 << 14) / rate);
+            if (bin >= out.size()) return 0.0f;
+            return (float) Decibels::gainToDecibels (out[bin] / jmax (1.0e-9f, ref[bin]), -90.0f);
+        };
+
+        const auto latencyMs = 1000.0 * p2.getLatencySamples() / rate;
+
+        std::cout << "  " << String ((int) rate).paddedRight (' ', 8)
+                  << "sum @800Hz " << String (atHz (800.0), 2).paddedLeft (' ', 6)
+                  << " dB | @8kHz " << String (atHz (8000.0), 2).paddedLeft (' ', 6)
+                  << " dB | @1kHz " << String (atHz (1000.0), 2).paddedLeft (' ', 6)
+                  << " dB | latency " << String (latencyMs, 2) << " ms"
+                  << (finite ? "" : "   NON-FINITE OUTPUT") << "\n";
+    }
+
     std::cout << "reported latency ..... " << proc.getLatencySamples() << " samples\n";
     std::cout << "ceiling lookahead (float) ..... "
               << String (proc.getOversamplerLatency(), 6) << "\n";
