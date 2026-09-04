@@ -1,0 +1,133 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  macos:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Configure
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release -DPAKKU_COPY_AFTER_BUILD=OFF
+
+      - name: Build
+        run: cmake --build build --config Release -j3
+
+      # Apple's own validation is the harshest test an AU gets: if the plugin
+      # passes auval, it will load in any AU host.
+      - name: Validate Audio Unit
+        run: |
+          cp -R build/src/Pakku_artefacts/Release/AU/Pakku.component \
+                ~/Library/Audio/Plug-Ins/Components/
+          killall -9 AudioComponentRegistrar 2>/dev/null || true
+          auval -v aufx Pkku Kytl
+
+      - name: Bench
+        run: |
+          ./build/tools/dsptest/pakku_dsptest_artefacts/Release/pakku_dsptest
+          ./build/tools/guishot/pakku_guishot_artefacts/Release/pakku_guishot --test-threshold
+
+      - name: Installer
+        run: ./packaging/macos/build-installer.sh
+
+      - name: Release bundle
+        run: |
+          version=$(sed -n 's/^project(Pakku VERSION \([0-9.]*\).*/\1/p' CMakeLists.txt)
+          ./packaging/make-credits.sh dist/CREDITS-AND-LICENCE.txt
+          cp docs/Pakku-Manual.pdf dist/
+          cd dist
+          zip -q "Pakku-$version-macOS.zip" \
+              "Pakku-$version.pkg" Pakku-Manual.pdf CREDITS-AND-LICENCE.txt
+          unzip -l "Pakku-$version-macOS.zip"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pakku-macos
+          path: dist/*.zip
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      # No -G on purpose. The runner image changes Visual Studio version over
+      # time — it currently ships 2026 — and pinning the generator breaks on
+      # its own when that happens. CMake defaults to whichever one is there.
+      - name: Configure
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release -DPAKKU_COPY_AFTER_BUILD=OFF
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      - name: Read version
+        id: ver
+        shell: bash
+        run: |
+          v=$(sed -n 's/^project(Pakku VERSION \([0-9.]*\).*/\1/p' CMakeLists.txt)
+          echo "version=$v" >> "$GITHUB_OUTPUT"
+
+      - name: Installer
+        run: |
+          choco install innosetup -y --no-progress
+          # The ISCC path moves with the installed version; searching for it
+          # is steadier than hard-coding "Inno Setup 6".
+          $iscc = Get-ChildItem -Path "C:\Program Files*\Inno Setup*\ISCC.exe" -ErrorAction SilentlyContinue |
+                  Select-Object -First 1 -ExpandProperty FullName
+          if (-not $iscc) { throw "ISCC.exe not found" }
+          Write-Host "usando $iscc"
+          & $iscc /DAppVersion=${{ steps.ver.outputs.version }} packaging\windows\pakku.iss
+
+      - name: Credits file
+        shell: bash
+        run: ./packaging/make-credits.sh dist/CREDITS-AND-LICENCE.txt
+
+      - name: Release bundle
+        run: |
+          $v = "${{ steps.ver.outputs.version }}"
+          Copy-Item docs/Pakku-Manual.pdf dist/
+          Compress-Archive -Force -DestinationPath "dist/Pakku-$v-Windows.zip" -Path @(
+              "dist/Pakku-$v-Setup.exe",
+              "dist/Pakku-Manual.pdf",
+              "dist/CREDITS-AND-LICENCE.txt")
+          Expand-Archive -Path "dist/Pakku-$v-Windows.zip" -DestinationPath dist/check
+          Get-ChildItem dist/check | Select-Object Name, Length
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pakku-windows
+          path: dist/*.zip
+
+  release:
+    needs: [macos, windows]
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/**/*
+          generate_release_notes: true
+          body: |
+            Download the archive for your system. Each one holds the installer,
+            the full user manual as PDF, and the credits and licence file.
+
+            macOS builds are universal — Apple Silicon and Intel. Neither build
+            is code signed yet, so your system may object the first time: on
+            macOS right-click the .pkg and choose Open, on Windows click
+            More info then Run anyway.

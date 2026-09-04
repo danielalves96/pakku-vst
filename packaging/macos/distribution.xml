@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<installer-gui-script minSpecVersion="2">
+    <title>Pakku @VERSION@</title>
+    <organization>com.kyantechlabs</organization>
+    <options customize="always" require-scripts="false" hostArchitectures="arm64,x86_64"/>
+
+    <welcome    file="welcome.html"    mime-type="text/html"/>
+    <conclusion file="conclusion.html" mime-type="text/html"/>
+    <license    file="license.txt"     mime-type="text/plain"/>
+
+    <!-- macOS 11 is the floor: it is the deployment target of the universal binary -->
+    <volume-check>
+        <allowed-os-versions><os-version min="11.0"/></allowed-os-versions>
+    </volume-check>
+
+    <choices-outline>
+        <line choice="au"/>
+        <line choice="vst3"/>
+    </choices-outline>
+
+    <choice id="au" title="Audio Unit" visible="true"
+            description="Installs Pakku.component into /Library/Audio/Plug-Ins/Components. Logic Pro, GarageBand, Live and any other AU host.">
+        <pkg-ref id="com.kyantechlabs.pakku.au"/>
+    </choice>
+
+    <choice id="vst3" title="VST3" visible="true"
+            description="Installs Pakku.vst3 into /Library/Audio/Plug-Ins/VST3. Cubase, Reaper, Studio One, Bitwig and any other VST3 host.">
+        <pkg-ref id="com.kyantechlabs.pakku.vst3"/>
+    </choice>
+
+    <pkg-ref id="com.kyantechlabs.pakku.au"   version="@VERSION@">Pakku-AU.pkg</pkg-ref>
+    <pkg-ref id="com.kyantechlabs.pakku.vst3" version="@VERSION@">Pakku-VST3.pkg</pkg-ref>
+</installer-gui-script>
